@@ -1,6 +1,7 @@
 import pygame
 from .cell_values import CellValues
 from ..element_interface import IElement
+from ..images import GRID
 from ..players.player import Player
 from ..players.player_x import PlayerX
 from ..players.player_o import PlayerO
@@ -11,7 +12,7 @@ from ..settings import *
 class Grid(IElement):    
     def __init__(self):
         self.__image = pygame.transform.scale(
-            pygame.image.load('assets/table.png'),
+            pygame.image.load(GRID),
             (int(0.9 * WIDTH), int(0.9 * WIDTH))
         )
 

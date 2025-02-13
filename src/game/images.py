@@ -1,4 +1,5 @@
 ICON = 'assets/icon.png'
+GRID = 'assets/grid.png'
+LINE = 'assets/line.png'
 PLAYER_X = 'assets/x.png'
 PLAYER_O = 'assets/o.png'
-LINE = 'assets/line.png'
