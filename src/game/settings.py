@@ -1,0 +1,5 @@
+TITLE = 'Tic Tac Toe'
+WIDTH = 480
+HEIGHT = 640
+FPS = 30
+DEBUG = False
