@@ -1,6 +1,6 @@
 from enum import Enum
 
 
-class PlayerSymbol(Enum):
+class Symbol(Enum):
     X = 1
     O = 2

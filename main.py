@@ -1,5 +1,10 @@
-from src.game.tic_tac_toe import TicTacToe, GameMode
+from src.game import TicTacToe, PlayerType
 
 
 if __name__ == '__main__':
-    TicTacToe(GameMode.HUMAN_VS_HUMAN).run()
+    tictactoe = TicTacToe(
+        player_x_type = PlayerType.HUMAN,
+        player_o_type = PlayerType.HUMAN
+    )
+    
+    tictactoe.run()

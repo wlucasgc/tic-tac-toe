@@ -1,15 +1,15 @@
 from .winner_direction import WinnerDirection
-from ..players.player_symbol import PlayerSymbol
+from ..players.symbol import Symbol
 
 
 class Winner:
-    def __init__(self, player: PlayerSymbol, direction: WinnerDirection, number: int):
+    def __init__(self, player: Symbol, direction: WinnerDirection, number: int):
         self.__player = player
         self.__direction  = direction
         self.__number = number
 
 
-    def player(self) -> PlayerSymbol:
+    def player(self) -> Symbol:
         return self.__player
     
 

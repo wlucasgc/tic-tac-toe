@@ -1,9 +1,9 @@
 import pygame
-from ..element_interface import IElement
+from ..graphic_element_interface import IGraphicElement
 from ..settings import HEIGHT, WIDTH
 
 
-class Background(IElement):
+class Background(IGraphicElement):
     def draw(self, window: pygame.surface.Surface):
         window.fill(
             pygame.color.Color(200, 200, 200),

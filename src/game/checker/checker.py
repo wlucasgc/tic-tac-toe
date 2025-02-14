@@ -2,13 +2,14 @@ import pygame
 from math import sqrt
 from .game_status import GameStatus
 from .winner import Winner, WinnerDirection
-from ..grid.grid import CellValues, Grid
-from ..players.player_symbol import PlayerSymbol
-from ..element_interface import IElement
+from ..graphic_element_interface import IGraphicElement
+from ..grid import CellValue, Grid
+from ..players.symbol import Symbol
 from ..images import LINE
 from ..settings import *
 
-class Checker(IElement):
+
+class Checker(IGraphicElement):
     def __init__(self, grid: Grid):
         self.__grid = grid
 
@@ -41,10 +42,10 @@ class Checker(IElement):
             
             return GameStatus.IN_PROGRESS
             
-        if self.__winner.player() == PlayerSymbol.X:
+        if self.__winner.player() == Symbol.X:
             return GameStatus.PLAYER_X_WON
         
-        if self.__winner.player() == PlayerSymbol.O:
+        if self.__winner.player() == Symbol.O:
             return GameStatus.PLAYER_O_WON
 
 
@@ -56,40 +57,40 @@ class Checker(IElement):
         grid_status = self.__grid.status()
         
         # Procura um vencedor nas diagonais
-        if grid_status[0] == CellValues.PLAYER_X and grid_status[4] == CellValues.PLAYER_X and grid_status[8] == CellValues.PLAYER_X: 
-            self.__winner = Winner(PlayerSymbol.X, WinnerDirection.DIAGONAL, 1)
+        if grid_status[0] == CellValue.PLAYER_X and grid_status[4] == CellValue.PLAYER_X and grid_status[8] == CellValue.PLAYER_X: 
+            self.__winner = Winner(Symbol.X, WinnerDirection.DIAGONAL, 1)
             return
                 
-        if grid_status[2] == CellValues.PLAYER_X and grid_status[4] == CellValues.PLAYER_X and grid_status[6] == CellValues.PLAYER_X:
-            self.__winner = Winner(PlayerSymbol.X, WinnerDirection.DIAGONAL, 2)
+        if grid_status[2] == CellValue.PLAYER_X and grid_status[4] == CellValue.PLAYER_X and grid_status[6] == CellValue.PLAYER_X:
+            self.__winner = Winner(Symbol.X, WinnerDirection.DIAGONAL, 2)
             return
             
-        if grid_status[0] == CellValues.PLAYER_O and grid_status[4] == CellValues.PLAYER_O and grid_status[8] == CellValues.PLAYER_O:
-            self.__winner = Winner(PlayerSymbol.O, WinnerDirection.DIAGONAL, 1)
+        if grid_status[0] == CellValue.PLAYER_O and grid_status[4] == CellValue.PLAYER_O and grid_status[8] == CellValue.PLAYER_O:
+            self.__winner = Winner(Symbol.O, WinnerDirection.DIAGONAL, 1)
             return
         
-        if grid_status[2] == CellValues.PLAYER_O and grid_status[4] == CellValues.PLAYER_O and grid_status[6] == CellValues.PLAYER_O:
-            self.__winner = Winner(PlayerSymbol.O, WinnerDirection.DIAGONAL, 2)
+        if grid_status[2] == CellValue.PLAYER_O and grid_status[4] == CellValue.PLAYER_O and grid_status[6] == CellValue.PLAYER_O:
+            self.__winner = Winner(Symbol.O, WinnerDirection.DIAGONAL, 2)
             return
                 
         # Procura um vencedor linha a linha
         for i in range(3):
-            if grid_status[3 * i] == CellValues.PLAYER_X and grid_status[3 * i + 1] == CellValues.PLAYER_X and grid_status[3 * i + 2] == CellValues.PLAYER_X:
-                self.__winner = Winner(PlayerSymbol.X, WinnerDirection.LINE, i + 1)
+            if grid_status[3 * i] == CellValue.PLAYER_X and grid_status[3 * i + 1] == CellValue.PLAYER_X and grid_status[3 * i + 2] == CellValue.PLAYER_X:
+                self.__winner = Winner(Symbol.X, WinnerDirection.LINE, i + 1)
                 return
             
-            if grid_status[3 * i] == CellValues.PLAYER_O and grid_status[3 * i + 1] == CellValues.PLAYER_O and grid_status[3 * i + 2] == CellValues.PLAYER_O:
-                self.__winner = Winner(PlayerSymbol.O, WinnerDirection.LINE, i + 1)
+            if grid_status[3 * i] == CellValue.PLAYER_O and grid_status[3 * i + 1] == CellValue.PLAYER_O and grid_status[3 * i + 2] == CellValue.PLAYER_O:
+                self.__winner = Winner(Symbol.O, WinnerDirection.LINE, i + 1)
                 return
         
         # Procura um vencedor coluna por coluna
         for i in range(3):
-            if grid_status[i] == CellValues.PLAYER_X and grid_status[i + 3] == CellValues.PLAYER_X and grid_status[i + 6] == CellValues.PLAYER_X:
-                self.__winner = Winner(PlayerSymbol.X, WinnerDirection.COLUMN, i + 1)
+            if grid_status[i] == CellValue.PLAYER_X and grid_status[i + 3] == CellValue.PLAYER_X and grid_status[i + 6] == CellValue.PLAYER_X:
+                self.__winner = Winner(Symbol.X, WinnerDirection.COLUMN, i + 1)
                 return
             
-            if grid_status[i] == CellValues.PLAYER_O and grid_status[i + 3] == CellValues.PLAYER_O and grid_status[i + 6] == CellValues.PLAYER_O:
-                self.__winner = Winner(PlayerSymbol.O, WinnerDirection.COLUMN, i + 1)
+            if grid_status[i] == CellValue.PLAYER_O and grid_status[i + 3] == CellValue.PLAYER_O and grid_status[i + 6] == CellValue.PLAYER_O:
+                self.__winner = Winner(Symbol.O, WinnerDirection.COLUMN, i + 1)
                 return
         
         self.__winner = None

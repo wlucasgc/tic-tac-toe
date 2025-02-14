@@ -2,7 +2,7 @@ import pygame
 from abc import ABC, abstractmethod
 
 
-class IElement(ABC):
+class IGraphicElement(ABC):
     @abstractmethod
     def draw(self, window: pygame.surface.Surface) -> None:
         pass

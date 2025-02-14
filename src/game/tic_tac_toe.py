@@ -3,24 +3,24 @@ from pygame.locals import *
 from .checker import Checker, GameStatus
 from .background import Background
 from .event_handler import EventHandler
-from .game_mode import GameMode
 from .grid import Grid
 from .images import ICON
 from .log import Log
-from .players.player_symbol import PlayerSymbol
+from .players import PlayerFactory, PlayerType, Symbol
 from .settings import *
 
 
 class TicTacToe:
-    def __init__(self, game_mode: GameMode = GameMode.HUMAN_VS_HUMAN) -> None:
+    def __init__(self, player_x_type = PlayerType.HUMAN, player_o_type = PlayerType.HUMAN) -> None:
         # Configura a janela
         pygame.init()
         self.__window = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(TITLE)
         pygame.display.set_icon(pygame.image.load(ICON))
 
-        # Modo de Jogo
-        self.__game_mode = game_mode
+        # Cria os jogadores
+        self.__player_x = PlayerFactory.create_player(player_x_type, Symbol.X)
+        self.__player_y = PlayerFactory.create_player(player_o_type, Symbol.O)
 
         # Cria o background
         self.__background = Background()
@@ -30,6 +30,9 @@ class TicTacToe:
 
         # Verificador do jogo
         self.__checher = Checker(self.__grid)
+
+        # Clock
+        self.__clock = pygame.time.Clock()
 
         # Eventos
         self.__event_handler = EventHandler()
@@ -44,9 +47,6 @@ class TicTacToe:
         self.__event_handler.add_event(K_7, lambda: self.__play(7))
         self.__event_handler.add_event(K_8, lambda: self.__play(8))
         self.__event_handler.add_event(K_9, lambda: self.__play(9))
-
-        # Clock
-        self.__clock = pygame.time.Clock()
 
         self.__reset()
 
@@ -73,33 +73,33 @@ class TicTacToe:
 
     
     def __change_turn(self) -> None:
-        if self.__player_turn == PlayerSymbol.X:
-            self.__player_turn = PlayerSymbol.O
+        if self.__turn == Symbol.X:
+            self.__turn = Symbol.O
 
-        elif self.__player_turn == PlayerSymbol.O:
-            self.__player_turn = PlayerSymbol.X
+        elif self.__turn == Symbol.O:
+            self.__turn = Symbol.X
 
 
-    def __play(self, cell: int) -> None:
+    def __play(self, index: int) -> None:
         if self.__checher.game_status() != GameStatus.IN_PROGRESS:
             Log.print('O jogo terminou')    
             return
 
-        Log.print(f'O jogador {self.__player_turn.name} tentou marcar a célula {cell}')
+        Log.print(f'O jogador {self.__turn.name} tentou marcar a célula {index}')
         
-        if not self.__grid.mark(self.__player_turn, cell):
+        if not self.__grid.mark(self.__turn, index):
             Log.print('A jogada não foi válida!')
             return
         
         Log.print('Jogada bem sucedida!')
         self.__change_turn()
-        Log.print(f'Agora é a vez do jogador {self.__player_turn.name}')
+        Log.print(f'Agora é a vez do jogador {self.__turn.name}')
 
 
     def __reset(self) -> None:
         Log.print('Resetando o jogo...')
         self.__grid.reset()
-        self.__player_turn = PlayerSymbol.X
+        self.__turn = Symbol.X
 
 
     def __close(self) -> None:
